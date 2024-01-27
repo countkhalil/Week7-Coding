@@ -11,7 +11,10 @@ import util.DaoBase;
 
 //Code By Khalil M. 
 
+@SuppressWarnings("unused")
+
 public class ProjectDao extends DaoBase {
+	
 	
 	private static final String CATEGORY_TABLE = "category";
 	private static final String MATERIAL_TABLE = "material";
