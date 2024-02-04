@@ -2,6 +2,7 @@ package projects;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -15,12 +16,15 @@ public class ProjectsApp {
 
 	//@formatter:off
 	private List<String> operations = List.of (
-			"1) Add a project"
+			"1) Add a project" ,
+			"2) List of projects",
+			"3) Select a Project"
 			);
 	//@formatter:on
 	
 	private Scanner scanner = new Scanner (System.in);
 	private ProjectService projectService = new ProjectService();
+	private Project curProject;
 	
 	
 	
@@ -48,9 +52,16 @@ public class ProjectsApp {
 				case 1:
 					createProject();
 					break;
+				case 2:
+					listProjects();
+					break;
+				case 3:
+					selectProject();
+					break;
 					
 				default:
 					System.out.println("\n" + selection + " is not a valid entry. Try again, buddy");
+					break;
 				}
 				
 			}catch (Exception e){
@@ -61,6 +72,43 @@ public class ProjectsApp {
 	}
 
 
+	private void selectProject() {
+		List <Project> projects = listProjects();
+		Integer projectId = getIntInput("Enter a Project ID to select a project");
+		
+		curProject = null;
+		
+	//	curProject= projectService.fetchByProjectId(projectId);
+		
+		for (Project project : projects) {
+			if (project.getProjectId().equals(projectId)) {
+				curProject = projectService.fetchByProjectId(projectId);
+				break;
+			}
+		}
+		
+		if (Objects.isNull(curProject)) {
+		      throw new NoSuchElementException("Project ID " + projectId + " Does Not Currently Belong to a Project!");
+		
+		      
+		
+		
+	}
+	}
+
+
+	private List<Project> listProjects() {
+		List<Project> projects = projectService.fetchAllProjects();
+		
+		System.out.println("\nProjects: ");
+		
+		projects.forEach(project -> System.out.println("   " + project.getProjectId() + ": " + project.getProjectName()));
+		return projects;
+	}
+
+
+
+	
 	private void createProject() {
 		String projectName= getStringInput("Enter the Project Name");
 		BigDecimal estimatedHours = getDecimalInput("Enter the Estimated Hours");
@@ -84,15 +132,7 @@ public class ProjectsApp {
 
 
 
-
 	
-
-
-
-
-
-
-
 	private boolean exitMenu() {
 		System.out.println("\nNow Exiting the Menu. Stand By!");
 		return true;
@@ -146,6 +186,13 @@ public class ProjectsApp {
 		System.out.println("\nHere are the available selections. Press the Enter key to quit: ");
 		//Line??>
 		operations.forEach(input -> System.out.println("      " + input));
+		
+		
+		if (Objects.isNull(curProject)) {
+			System.out.println("\n No Current Project!");
+		} else {
+			System.out.println("\nYou have selected Project: " + curProject );
+		}
 
 	}
 

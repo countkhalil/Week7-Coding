@@ -7,10 +7,6 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * CODE BY KHALIL M. 
- *
- */
 
 
 public class Project {
@@ -91,7 +87,7 @@ public class Project {
     
     result += "\n   ID= " + projectId;
     result += "\n   name= " + projectName;
-    result += "\n   estimatedHours=" + estimatedHours;
+    result += "\n   estimatedHours= " + estimatedHours;
     result += "\n   actualHours= " + actualHours;
     result += "\n   difficulty= " + difficulty;
     result += "\n   notes= " + notes;
@@ -114,6 +110,6 @@ public class Project {
       result += "\n      " + category;
     }
     
-    return result;
+    return result; 
   }
 }
